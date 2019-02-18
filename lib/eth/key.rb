@@ -21,6 +21,11 @@ module Eth
       OpenSsl.recover_compact(Utils.keccak256(Utils.prefix_message(message)), bin_signature)
     end
 
+    def self.personal_recover_hex(message, signature)
+    	bin_signature = Utils.hex_to_bin(signature).bytes.rotate(-1).pack('c*')
+      OpenSsl.recover_compact(Utils.keccak256(Utils.prefix_message(Utils.hex_to_bin(message))), bin_signature)
+    end
+
     def initialize(priv: nil)
       @private_key = MoneyTree::PrivateKey.new key: priv
       @public_key = MoneyTree::PublicKey.new private_key, compressed: false

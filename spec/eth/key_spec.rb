@@ -56,6 +56,18 @@ describe Eth::Key, type: :model do
     end
   end
 
+  describe ".personal_recover_hex" do
+    let(:message) { "57a69889d35410e74bed6f1b6849868da2d0b062b47c87b6d11ba894f3690633" }
+    let(:signature) { "5f4b6113ef2400bd13446fe41f6b83f3d46b5f9c6b07f63d1432578f9d71033f3e464699775521aa5ea55b4eb44b7c6ae5482c95c328d064ba60e6ffe25c4b6d1b" }
+    let(:public_hex) { "04ec41b783b0ff0d564b38f1df41a48c6e56d77e9426d0beca77031e2087c5eebe91cfab1838c4ef3f31b463f2a40d2551685b8c19304e1b44daf5919dd7f1f726" }
+
+    it "it can recover a public key from a signature generated with web3/metamask for a hex message" do
+      10.times do
+        expect(Eth::Key.personal_recover_hex message, signature).to eq(public_hex)
+      end
+    end
+  end
+
   describe "#verify_signature" do
     let(:priv) { '5a37533acfa3ff9386aed01e16c0e7a79038ce05cc383e290d360b8ce9cd6fdf' }
     let(:signature) { hex_to_bin "1ce2f13b4123a23a4a280ac4adcba1ffa3f3848f494dc1de440af43f677e0e01260fb4667ed117d555659b249702c8215162b3f0ee09628813a4ef83616f99f180" }
